@@ -59,6 +59,6 @@ public class BetService {
 
     var lotteryUser = lotteryUserService.findByEmail(emailOptional.get());
 
-    return repository.findByUser(lotteryUser);
+    return repository.findByUserOrderByCreatedAtAsc(lotteryUser);
   }
 }
