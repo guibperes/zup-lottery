@@ -33,4 +33,10 @@ public class LotteryUserService {
       .findById(id)
       .orElseThrow(() -> new EntityNotFoundedException("Cannot find User with provided id"));
   }
+
+  public LotteryUser findByEmail(String email) {
+    return repository
+      .findByEmail(email)
+      .orElseThrow(() -> new EntityNotFoundedException("Cannot find User with provided email"));
+  }
 }
