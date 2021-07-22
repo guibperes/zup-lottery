@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:13.3-alpine
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 112233
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+      restart_policy:
+        condition: on-failure
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - "node.role==manager"
+
+  app:
+    image: registry.gitlab.com/claranet-red/java-api-test/lottery-api:latest
+    ports:
+      - 9090:9090
+    networks:
+      - backend
+      - frontend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090"]
+      interval: 60s
+      timeout: 5s
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+      restart_policy:
+        condition: on-failure
+
+networks:
+  net:
+    driver: overlay
+
+volumes:
+  db_data:
+    driver: local
