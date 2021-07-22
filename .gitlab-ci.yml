@@ -12,7 +12,7 @@ build:
     - docker
     - linux
   artifacts:
-    expire_in: 1d
+    expire_in: 1 day
     paths:
       - target/
   script:
