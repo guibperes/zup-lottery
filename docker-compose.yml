@@ -6,7 +6,7 @@ services:
     ports:
       - 5432:5432
     networks:
-      - backend
+      - net
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -28,8 +28,7 @@ services:
     ports:
       - 9090:9090
     networks:
-      - backend
-      - frontend
+      - net
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9090"]
       interval: 60s

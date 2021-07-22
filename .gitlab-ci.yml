@@ -21,6 +21,8 @@ build:
 deploy:
   stage: deploy
   image: docker:stable
+  services:
+    - docker:dind
   only:
     - master
   tags:
@@ -28,7 +30,7 @@ deploy:
     - linux
   script:
     - IMAGE_NAME=$CI_REGISTRY/claranet-red/java-api-test/lottery-api:latest
-    - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
+    - echo $CI_DEPLOY_PASSWORD | docker login $CI_REGISTRY -u $CI_DEPLOY_USER --password-stdin
     - docker image build . -t $IMAGE_NAME
     - docker image push $IMAGE_NAME
-    - docker stack deploy lottery -c docker-compose.yml
+    - docker stack deploy lottery -c docker-compose.yml --with-registry-auth
