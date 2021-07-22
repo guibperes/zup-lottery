@@ -27,5 +27,5 @@ publish:
     - docker
     - linux
   script:
-    - docker image build . -t registry:5000/lottery-api:latest
-    - docker image push registry:5000/lottery-api:latest
+    - docker image build . -t gitlab.com/claranet-red/java-api-test:latest
+    - docker image push gitlab.com/claranet-red/java-api-test:latest
