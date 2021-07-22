@@ -1,10 +1,11 @@
 image: maven:3-openjdk-11
 
 stages:
+  - build
   - publish
 
-publish:
-  stage: publish
+build:
+  stage: build
   only:
     - master
   tags:
@@ -12,5 +13,15 @@ publish:
     - linux
   script:
     - mvn clean package -DskipTests
+
+publish:
+  stage: publish
+  image: tiangolo/docker-with-compose
+  only:
+    - master
+  tags:
+    - docker
+    - linux
+  script:
     - docker image build . -t registry:5000/lottery-api:latest
     - docker image push registry:5000/lottery-api:latest
