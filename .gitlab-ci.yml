@@ -7,6 +7,9 @@ publish:
   stage: publish
   only:
     - master
+  tags:
+    - docker
+    - linux
   script:
     - mvn clean package -DskipTests
     - docker image build . -t registry:5000/lottery-api:latest
