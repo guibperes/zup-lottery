@@ -11,6 +11,10 @@ build:
   tags:
     - docker
     - linux
+  artifacts:
+    expire_in: 1d
+    paths:
+      - build/
   script:
     - mvn clean package -DskipTests
 
